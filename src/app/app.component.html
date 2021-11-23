@@ -1,3 +1,8 @@
-<p>Academify Frontend</p>
-
+<mat-toolbar>
+  <span>Academify</span>
+  <span class="toolbarSpacer"></span>
+  <button mat-button [routerLink]="'/'" routerLinkActive>Inicio</button>
+  <button mat-button [routerLink]="'panel'">Painel</button>
+  <button mat-button [routerLink]="'/analytics'">Estatísticas</button>
+</mat-toolbar>
 <router-outlet></router-outlet>
