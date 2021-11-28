@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
+import { NovoalunoComponent } from '../dialog/novoaluno/novoaluno.component';
 
 interface Aluno {
   id: number;
@@ -16,7 +18,19 @@ interface Aluno {
 })
 export class PanelComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
+
+  openNovoAlunoDialog(): void {
+    const dialogRef = this.dialog.open(NovoalunoComponent, {
+      data: { nome: '', matricula: '', nascimento: '' }
+    })
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        console.log(res);
+      }
+    })
+  }
 
   alunoData: Aluno[] = [
     {id: 1, nome: 'Hiago Coelho', dataHoraCadastro: '23/11/2021 18:00', nascimento: '00/00/1999', matricula: '123456'},
