@@ -16,6 +16,7 @@ import { PanelComponent } from './panel/panel.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NovoalunoComponent } from './dialog/novoaluno/novoaluno.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { NovoalunoComponent } from './dialog/novoaluno/novoaluno.component';
     MatDialogModule,
     MatMenuModule,
     MatTableModule,
-    MatToolbarModule
+    MatToolbarModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

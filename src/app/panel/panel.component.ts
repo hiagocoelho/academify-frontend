@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { NovoalunoComponent } from '../dialog/novoaluno/novoaluno.component';
+import {PanelService} from "./panel.service";
 
 interface Aluno {
   id: number;
@@ -18,7 +19,7 @@ interface Aluno {
 })
 export class PanelComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private  panelServices: PanelService) { }
 
   openNovoAlunoDialog(): void {
     const dialogRef = this.dialog.open(NovoalunoComponent, {
@@ -32,6 +33,7 @@ export class PanelComponent implements OnInit {
     })
   }
 
+  // alunoData = [];
   alunoData: Aluno[] = [
     {id: 1, nome: 'Hiago Coelho', dataHoraCadastro: '23/11/2021 18:00', nascimento: '00/00/1999', matricula: '123456'},
     {id: 2, nome: 'João Batista', dataHoraCadastro: '23/11/2021 19:00', nascimento: '01/01/1999', matricula: '234567'},
@@ -43,29 +45,39 @@ export class PanelComponent implements OnInit {
 
   @ViewChild(MatTable) table!: MatTable<Aluno>;
 
+  carregarAlunos(){
+    this.panelServices.listarAlunos().subscribe(value => {
 
-  addData () {
-    this.dataSource.push(
-      {
-        id: this.dataSource.length  + 1,
-        nome: 'John Doe',
-        dataHoraCadastro: '23/11/2021 00:00',
-        nascimento: '00/00/1999',
-        matricula: '000000'
-      }
-    );
-    this.table.renderRows();
-    alert('Aluno adicionado com sucesso!');
+      // this.alunoData = value
+
+      console.log(value)
+    })
+
   }
+  // addData () {
+  //   this.dataSource.push(
+  //     {
+  //       id: this.dataSource.length  + 1,
+  //       nome: 'John Doe',
+  //       dataHoraCadastro: '23/11/2021 00:00',
+  //       nascimento: '00/00/1999',
+  //       matricula: '000000'
+  //     }
+  //   );
+  //   this.table.renderRows();
+  //   alert('Aluno adicionado com sucesso!');
+  // }
 
   removeData(id: number) {
-    const index = this.dataSource.findIndex((aluno: Aluno) => { return aluno.id === id });
-    if (index !== -1) this.dataSource.splice(index, 1);
+    this.panelServices.deletarAluno(id).subscribe(value => {
+      console.log(value)
+    })
     this.table.renderRows();
     alert('Aluno removido com sucesso!');
   }
 
   ngOnInit(): void {
+    this.carregarAlunos()
   }
 
 }
