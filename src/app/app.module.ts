@@ -17,6 +17,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NovoalunoComponent } from './dialog/novoaluno/novoaluno.component';
 import { HttpClientModule } from '@angular/common/http';
+import { EditaralunoComponent } from './editaraluno/editaraluno.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
     LandingPageComponent,
     PanelComponent,
     AnalyticsComponent,
-    NovoalunoComponent
+    NovoalunoComponent,
+    EditaralunoComponent
   ],
   imports: [
     BrowserModule,

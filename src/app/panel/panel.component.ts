@@ -3,11 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { NovoalunoComponent } from '../dialog/novoaluno/novoaluno.component';
 import {PanelService} from "./panel.service";
+import { EditaralunoComponent } from '../editaraluno/editaraluno.component';
+import { AutofillMonitor } from '@angular/cdk/text-field';
 
 interface Aluno {
-  id: number;
+  id?: number;
   nome: string;
-  dataHoraCadastro: string;
+  dataHoraCadastro?: string;
   nascimento: string;
   matricula: string;
 }
@@ -33,6 +35,19 @@ export class PanelComponent implements OnInit {
     })
   }
 
+  openEditarAlunoDialog(aluno: Aluno): void {
+    const dialogRef = this.dialog.open(EditaralunoComponent, {
+      data: { nome: aluno.nome, matricula: aluno.matricula, nascimento: aluno.nascimento }
+    })
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        console.log(res);
+      }
+    })
+  }
+
+
   // alunoData = [];
   alunoData: Aluno[] = [
     {id: 1, nome: 'Hiago Coelho', dataHoraCadastro: '23/11/2021 18:00', nascimento: '00/00/1999', matricula: '123456'},
@@ -40,7 +55,7 @@ export class PanelComponent implements OnInit {
     {id: 3, nome: 'Patrick Motta', dataHoraCadastro: '23/11/2021 20:00', nascimento: '02/02/1999', matricula: '345678'}
   ]
 
-  displayedColumns: string[] = ['id', 'nome', 'dataHoraCadastro', 'nascimento', 'matricula', 'remover']
+  displayedColumns: string[] = ['id', 'nome', 'dataHoraCadastro', 'nascimento', 'matricula', 'remover' , 'editar']
   dataSource = [...this.alunoData]
 
   @ViewChild(MatTable) table!: MatTable<Aluno>;

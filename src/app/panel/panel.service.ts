@@ -17,6 +17,7 @@ export class PanelService {
   //
   // }
 
+  
   deletarAluno(id:any): Observable<any>{
     return this.http.post("http://localhost:8080/api/aluno/remover", {"id": id});
   }
