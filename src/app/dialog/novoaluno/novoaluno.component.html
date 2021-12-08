@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Adicionar um novo aluno</h1>
+<div mat-dialog-content>
+  <p>Nome:</p>
+  <mat-form-field appearance="fill">
+    <mat-label>Insira o nome do aluno:</mat-label>
+    <input matInput [(ngModel)]="data.nome" autocomplete="off" required #inputNome>
+  </mat-form-field>
+  <p class="emptyFieldMessage">{{emptyNome === true ? 'Campo obrigatório!' : null}}</p>
+  <p>Data de nascimento:</p>
+  <mat-form-field appearance="fill">
+    <mat-label>Insira a data de nascimento:</mat-label>
+    <input type="date" matInput [(ngModel)]="data.nascimento" autocomplete="off" required>
+  </mat-form-field>
+  <p class="emptyFieldMessage">{{emptyNascimento === true ? 'Campo obrigatório!' : null}}</p>
+  <p>Matrícula:</p>
+  <mat-form-field appearance="fill">
+    <mat-label>Insira o número da matrícula:</mat-label>
+    <input matInput [(ngModel)]="data.matricula" autocomplete="off" maxlength="10" required>
+  </mat-form-field>
+  <p class="emptyFieldMessage">{{emptyMatricula === true ? 'Campo obrigatório!' : null}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button (click)="addAluno(data)" cdkFocusInitial>Adicionar</button>
+</div>
