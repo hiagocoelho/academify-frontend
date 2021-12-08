@@ -8,7 +8,7 @@ interface Aluno {
   id: number;
   nome: string;
   dataHoraCadastro: string;
-  nascimento: string;
+  nascimento: any;
   matricula: string;
 }
 
@@ -23,7 +23,7 @@ export class PanelComponent implements OnInit {
 
   openNovoAlunoDialog(): void {
     const dialogRef = this.dialog.open(NovoalunoComponent, {
-      data: { nome: '', matricula: '', nascimento: '' }
+      data: { nome: '', matricula: '', nascimento: '' },
     })
 
     dialogRef.afterClosed().subscribe(res => {
@@ -33,7 +33,6 @@ export class PanelComponent implements OnInit {
     })
   }
 
-  // alunoData = [];
   alunoData: Aluno[] = [
     {id: 1, nome: 'Hiago Coelho', dataHoraCadastro: '23/11/2021 18:00', nascimento: '00/00/1999', matricula: '123456'},
     {id: 2, nome: 'João Batista', dataHoraCadastro: '23/11/2021 19:00', nascimento: '01/01/1999', matricula: '234567'},
@@ -46,34 +45,42 @@ export class PanelComponent implements OnInit {
   @ViewChild(MatTable) table!: MatTable<Aluno>;
 
   carregarAlunos(){
-    this.panelServices.listarAlunos().subscribe(value => {
-
-      // this.alunoData = value
-
-      console.log(value)
+    this.panelServices.listarAlunos().subscribe(async value => {
+      const alunos: any = [];
+      await value.forEach((aluno: Aluno) => {
+        aluno.nascimento = new Date(aluno.nascimento + (3600 * 1000 * 24));
+        alunos.push({
+          id: aluno.id,
+          nome: aluno.nome,
+          matricula: aluno.matricula,
+          nascimento: `${new Date(aluno.nascimento)
+            .getDate()}/${new Date(aluno.nascimento)
+              .getMonth()+1}/${new Date(aluno.nascimento)
+                .getFullYear()}`,
+          dataHoraCadastro: `${new Date(aluno.dataHoraCadastro)
+            .getDate()}/${new Date(aluno.dataHoraCadastro)
+              .getMonth()+1}/${new Date(aluno.dataHoraCadastro)
+                .getFullYear()}
+          ${new Date(aluno.dataHoraCadastro)
+            .getHours()}:${new Date(aluno.dataHoraCadastro)
+              .getMinutes()}`
+        })
+      })
+      this.dataSource = alunos;
+      this.table.renderRows();
     })
-
   }
-  // addData () {
-  //   this.dataSource.push(
-  //     {
-  //       id: this.dataSource.length  + 1,
-  //       nome: 'John Doe',
-  //       dataHoraCadastro: '23/11/2021 00:00',
-  //       nascimento: '00/00/1999',
-  //       matricula: '000000'
-  //     }
-  //   );
-  //   this.table.renderRows();
-  //   alert('Aluno adicionado com sucesso!');
-  // }
 
   removeData(id: number) {
-    this.panelServices.deletarAluno(id).subscribe(value => {
-      console.log(value)
-    })
-    this.table.renderRows();
-    alert('Aluno removido com sucesso!');
+    try {
+      this.panelServices.deletarAluno(id).subscribe(value => {
+        console.log(value)
+        alert('Aluno removido com sucesso!');
+        this.carregarAlunos();
+      })
+    } catch (error) {
+
+    }
   }
 
   ngOnInit(): void {
