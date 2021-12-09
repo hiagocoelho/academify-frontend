@@ -49,23 +49,32 @@ export class PanelComponent implements OnInit {
 
 
   // alunoData = [];
-  alunoData: Aluno[] = [
+  alunoData = [
     {id: 1, nome: 'Hiago Coelho', dataHoraCadastro: '23/11/2021 18:00', nascimento: '00/00/1999', matricula: '123456'},
     {id: 2, nome: 'João Batista', dataHoraCadastro: '23/11/2021 19:00', nascimento: '01/01/1999', matricula: '234567'},
     {id: 3, nome: 'Patrick Motta', dataHoraCadastro: '23/11/2021 20:00', nascimento: '02/02/1999', matricula: '345678'}
   ]
 
   displayedColumns: string[] = ['id', 'nome', 'dataHoraCadastro', 'nascimento', 'matricula', 'remover' , 'editar']
-  dataSource = [...this.alunoData]
+  initialDataSource: any = []
+  dataSource: any = []
 
   @ViewChild(MatTable) table!: MatTable<Aluno>;
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    if (filterValue === '') return this.dataSource = this.initialDataSource;
+    const source: Array<any> = this.dataSource;
+    this.dataSource = source.filter((aluno: Aluno) => aluno.nome.toLowerCase().includes(filterValue.trim().toLowerCase()))
+  }
 
   carregarAlunos(){
     this.panelServices.listarAlunos().subscribe(async value => {
       const alunos: any = [];
-      await value.forEach((aluno: Aluno) => {
+      await value.forEach((aluno: Aluno, index: any) => {
         aluno.nascimento = new Date(aluno.nascimento + (3600 * 1000 * 24));
         alunos.push({
+          tableId: index,
           id: aluno.id,
           nome: aluno.nome,
           matricula: aluno.matricula,
@@ -83,6 +92,7 @@ export class PanelComponent implements OnInit {
               .getMinutes()}`
         })
       })
+      this.initialDataSource = alunos;
       this.dataSource = alunos;
       this.table.renderRows();
     })

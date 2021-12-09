@@ -4,12 +4,16 @@
   <button mat-raised-button (click)="openNovoAlunoDialog()" class="demo-button">
     Adicionar aluno
   </button>
+  <section>
+    <span class="label">Busca por nome:</span>
+    <input matInput (keyup)="applyFilter($event)" #input class="filterInput" autocomplete="off">
+  </section>
 </div>
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>ID</th>
-      <td mat-cell *matCellDef="let element">{{element.id}}</td>
+      <td mat-cell *matCellDef="let element">{{element.tableId + 1}}</td>
     </ng-container>
 
     <ng-container matColumnDef="nome">
