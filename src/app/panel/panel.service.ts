@@ -9,6 +9,11 @@ export class PanelService {
 
   constructor(private http: HttpClient) {}
 
+  adicionarAluno(data: any): Observable<any> {
+    return this.http.post("http://localhost:8080/api/aluno/incluir", data);
+  }
+
+
   listarAlunos(): Observable<any>{
     return this.http.get("http://localhost:8080/api/aluno/listar");
   }

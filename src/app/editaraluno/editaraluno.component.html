@@ -3,20 +3,23 @@
   <p>Nome:</p>
   <mat-form-field appearance="fill">
     <mat-label>Mudar Nome:</mat-label>
-    <input matInput [(ngModel)]="data.nome" autocomplete="off" required>
+    <input matInput [(ngModel)]="data.nome" autocomplete="off" required #inputNome>
   </mat-form-field>
+  <p class="emptyFieldMessage">{{emptyNome === true ? 'Campo obrigatório!' : null}}</p>
   <p>Data de nascimento:</p>
   <mat-form-field appearance="fill">
     <mat-label>Mudar Data de Nascimento:</mat-label>
-    <input matInput [(ngModel)]="data.nascimento" autocomplete="off">
+    <input type="date" matInput [(ngModel)]="data.nascimento" autocomplete="off" required>
   </mat-form-field>
+  <p class="emptyFieldMessage">{{emptyNascimento === true ? 'Campo obrigatório!' : null}}</p>
   <p>Matrícula:</p>
   <mat-form-field appearance="fill">
     <mat-label>Mudar numero de Matricula:</mat-label>
-    <input matInput [(ngModel)]="data.matricula" autocomplete="off">
+    <input matInput [(ngModel)]="data.matricula" autocomplete="off" required>
   </mat-form-field>
+  <p class="emptyFieldMessage">{{emptyMatricula === true ? 'Campo obrigatório!' : null}}</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancelar</button>
-  <button mat-button (click)="editAluno(data)" cdkFocusInitial>Adicionar</button>
+  <button mat-button (click)="editAluno(data, data.id, data.dataHoraCadastro)" cdkFocusInitial>Confirmar</button>
 </div>
